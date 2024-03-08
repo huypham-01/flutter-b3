@@ -4,65 +4,73 @@ void main() {
   runApp(const MyApp());
 }
 
-  class MyApp extends StatelessWidget {
-    const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-    // This widget is the root of your application.
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
-          useMaterial3: true,
-        ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      );
-    }
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
   }
+}
 
-  class MyHomePage extends StatefulWidget {
-    const MyHomePage({super.key, required this.title});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
 
+  final String title;
 
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
-    final String title;
+class _MyHomePageState extends State<MyHomePage> {
+  int tapCount = 0;
+  int selectedIndex = 0;
 
-    @override
-    State<MyHomePage> createState() => _MyHomePageState();
-
-
-  }
-
-  class _MyHomePageState extends State<MyHomePage> {
-
-    @override
-    Widget build(BuildContext context) {
-   return Scaffold(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       appBar: AppBar(
         title: Text("BottomNavigationBar Example"),
       ),
       body: Center(
-          child:  Text(
-            'Flutter BottomNavigationBar Example',
-          )
+          child: Text("Tap Count: " + this.tapCount.toString()
+                       + ", Index: " + this.selectedIndex.toString())
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: this.selectedIndex,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
+            icon: Icon(Icons.contacts),
+            label: "Contacts",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.mail),
-            label: "Messages",
+            label: "Emails",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: "Profile",
           )
         ],
+        onTap: (int index) {
+          this.onTapHandler(index);
+        },
       ),
     );
+  }
+
+  void onTapHandler(int index)  {
+    this.setState(() {
+      this.tapCount++;
+      this.selectedIndex = index;
+    });
   }
 }
